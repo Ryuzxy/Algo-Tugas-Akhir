@@ -1,137 +1,164 @@
+from calendar import c
 import os
+import platform
+from turtle import clear
 import pandas as pd
-import numpy as np
-import time
-import subprocess
+import datetime
 
+def clear_screen():
+    """Membersihkan layar."""
+    if platform.system() == "Windows":
+        os.system("cls")
+    else:
+        os.system("clear")
 
 def login():
-    os.system("cls")
-    print("Selamat Datang Di Toko Kami")
-    print("Pilih Mau login Sebagai Apa?")
-    print("1. Owner")
-    print("2. Admin")
-    print("3. Kasir")
-    print("4. Pembeli")
-    
-    choice = input("Enter your choice: ")
-    if choice == "1":
-        username = input("Enter username: ")
-        password = input("Enter password: ")
-        if username == "Yuri" and password == "Ryujin":
-            return "Owner"
-    elif choice == "2":
-        username = input("Enter username: ")
-        password = input("Enter password: ")
-        if username == "Admin" and password == "@dm1n":
-            return "Admin"
-    elif choice == "3":
-        username = input("Enter username: ")
-        password = input("Enter password: ")
-        if username == "Kasir" and password == "K@sir1":
-            return "Kasir"
-    elif choice == "4":
-        return "Pembeli"
-    else:
-        print("Pilihan tidak valid")
-        return None
-    return None
+    while True:
+        clear_screen()
+        print("=" * 40)
+        print("        SELAMAT DATANG DI TOKO KAMI")
+        print("=" * 40)
+        print("Pilih Mau Login Sebagai Apa?")
+        print("1. Owner")
+        print("2. Admin")
+        print("3. Kasir")
+        print("4. Pembeli")
+        print("5. Keluar")
+        print("-" * 40)
+        choice = input("Masukkan Pilihan Anda [1-5]: ").strip()
+        if choice == "1":
+            username = input("Masukkan Username: ").strip()
+            password = input("Masukkan Password: ").strip()
+            if username == "Yuri" and password == "Ryujin":
+                print("\nLogin Berhasil sebagai Owner!")
+                input("Tekan Enter untuk melanjutkan...")
+                return "Owner"
+            else:
+                print("[Error] Username atau password salah.")
+        elif choice == "2":
+            username = input("Masukkan Username: ").strip()
+            password = input("Masukkan Password: ").strip()
+            if username == "Admin" and password == "@dm1n":
+                print("\nLogin Berhasil sebagai Admin!")
+                input("Tekan Enter untuk melanjutkan...")
+                return "Admin"
+            else:
+                print("[Error] Username atau password salah.")
+        
+        elif choice == "3":
+            username = input("Masukkan Username: ").strip()
+            password = input("Masukkan Password: ").strip()
+            if username == "Kasir" and password == "K@sir":
+                print("\nLogin Berhasil sebagai Kasir!")
+                input("Tekan Enter untuk melanjutkan...")
+                return "Kasir"
+            else:
+                print("[Error] Username atau password salah.")
+        
+        elif choice == "4":
+            print("\nLogin sebagai Pembeli.")
+            input("Tekan Enter untuk melanjutkan...")
+            return "Pembeli"
+        
+        elif choice == "5":
+            print("\nKeluar dari sistem. Terima kasih!")
+            return None
+        
+        else:
+            print("[Error] Pilihan tidak valid. Silakan coba lagi.")
+        input("Tekan Enter untuk kembali ke menu...")
+
+
+def print_table(menu_title, options):
+    """Menampilkan menu tabel dengan opsi."""
+    print("=" * 40)
+    print(f"{menu_title.center(40)}")
+    print("=" * 40)
+    for key, value in options.items():
+        print(f"{key}. {value}")
+    print("=" * 40)
+
+def exit_program():
+    """Keluar dari program."""
+    clear_screen()
+    print("Terima Kasih telah menggunakan sistem kami.")
+    exit()
+
 
 def menu(username):
-    if username == "Owner":
-        print("Mau Apa Pak BOSS?")
-        print("Menu Owner")
-        print("1. Tambah Barang")
-        print("2. Hapus Barang")
-        print("3. Lihat Barang")
-        print("4. Edit Barang")
-        print("5. Lihat Penjualan")
-        print("6. Lihat Pengeluaran")
-        print("7. Lihat Pendapatan")
-        print("8. Lihat Keuntungan")
-        print("9. Kurangi Barang")
-        print("10. Keluar")
-        choice = input("Enter your choice: ")
-        if choice == "1":
-            tambahBarang()
-        elif choice == "2":
-            hapusBarang()
-        elif choice == "3":
-            lihatBarang()
-        elif choice == "4":
-            editBarang()
-        elif choice == "5":
-            lihatPenjualan()
-        elif choice == "6":
-            lihatPengeluaran()
-        elif choice == "7":
-            lihatPendapatan()
-        elif choice == "8":
-            lihatKeuntungan()
-        elif choice == "9":
-            kurangibarang()
-        elif choice == "10":
-            exit_program()
+    while True:
+        if username == "Owner":
+            menu_title = "MENU OWNER"
+            options = {
+                "1": "Tambah Barang",
+                "2": "Hapus Barang",
+                "3": "Lihat Barang",
+                "4": "Edit Barang",
+                "5": "Keluar"
+            }
+        elif username == "Admin":
+            menu_title = "MENU ADMIN"
+            options = {
+                "1": "Tambah Barang",
+                "2": "Hapus Barang",
+                "3": "Lihat Barang",
+                "4": "Presensi",
+                "5": "Keluar"
+            }
+        elif username == "Kasir":
+            menu_title = "MENU KASIR"
+            options = {
+                "1": "Lihat Barang",
+                "2": "Keluar"
+            }
+        elif username == "Pembeli":
+            menu_title = "MENU PEMBELI"
+            options = {
+                "1": "Lihat Barang",
+                "2": "Checkout",
+                "3": "Keluar"
+            }
         else:
-            print("Pilihan tidak tersedia")
-    elif username == "Admin":
-        print("Mau Apa Min?")
-        print("Menu Admin")
-        print("1. Tambah Barang")
-        print("2. Hapus Barang")
-        print("3. Lihat Barang")
-        print("4. Keluar")
+            print("[Error] Role tidak dikenali.")
+            return
+        clear_screen()
+        print_table(menu_title, options)
+        choice = input("Masukkan pilihan Anda: ").strip()
+        if username in ["Owner", "Admin"]:
+            if choice == "1":
+                tambahBarang()
+            elif choice == "2":
+                hapusBarang()
+            elif choice == "3":
+                lihatBarang()
+            elif choice == "4" and username == "Owner":
+                editBarang()
+            elif choice == "4" :
+                presensi()
+            elif choice == "5" :
+                exit_program()
+            else:
+                print("[Error] Pilihan tidak valid.")
+        elif username == "Kasir":
+            if choice == "1":
+                lihatBarang()
+            elif choice == "2":
+                presensi()
+            elif choice == "3":
+                exit_program()
+            else:
+                print("[Error] Pilihan tidak valid.")
+        elif username == "Pembeli":
+            if choice == "1":
+                lihatBarang()
+            elif choice == "2":
+                checkout()
+            elif choice == "3":
+                exit_program()
+            else:
+                print("[Error] Pilihan tidak valid.")
+        input("Tekan Enter untuk melanjutkan...")
         
-        choice = input("Enter your choice: ")
-        if choice == "1":
-            tambahBarang()
-        elif choice == "2":
-            hapusBarang()
-        elif choice == "3":
-            lihatBarang()
-        elif choice == "4":
-            exit_program()
-        else:
-            print("Pilihan tidak tersedia")
-    elif username == "Kasir":
-        print("Mau Apa Pak Kasir?")
-        print("Menu Kasir")
-        print("1. Lihat Penjualan")
-        print("2. Lihat Pengeluaran")
-        print("3. Lihat Barang")
-        print("4. Keluar")
-        
-        choice = input("Enter your choice: ")
-        if choice == "1":
-            lihatPenjualan()
-        elif choice == "2":
-            lihatPengeluaran()
-        elif choice == "3":
-            lihatBarang()
-        elif choice == "4":
-            exit_program()
-        else:
-            print("Pilihan tidak tersedia")
-    elif username == "Pembeli":
-        print("Mau Apa Kakak?")
-        print("Menu Pembeli")
-        print("1. Lihat Barang")
-        print("2. Checkout")
-        print("3. Pencarian Barang")
-        print("4. Keluar")
-        
-        choice = input("Enter your choice: ")
-        if choice == "1":
-            lihatBarang()
-        elif choice == "2":
-            checkout()
-        elif choice == "3":
-            pencarianBarang()
-        elif choice == "4":
-            exit_program()
-        else:
-            print("Pilihan tidak tersedia")
-
 def tambahBarang():
     os.system("cls")
     print("Tambah Barang")
@@ -165,14 +192,41 @@ def hapusBarang():
     menu(username)
 
 def lihatBarang():
-    os.system("cls")
-    print("Lihat Barang")
+    """Menampilkan daftar barang dan menyediakan fitur pencarian."""
+    clear_screen()  
+    print("=" * 40)
+    print("             LIHAT BARANG")
+    print("=" * 40)
+
     try:
         df = pd.read_csv("items.csv")
-        print(df)
+
+        if df.empty:
+            print("Tidak ada barang tersedia.")
+        else:
+            print("\nDaftar Barang:")
+            print(df.to_string(index=False))  
+            while True:
+                print("\nPilih Opsi:")
+                print("1. Cari Barang")
+                print("2. Kembali ke Menu Utama")
+                choice = input("Masukkan pilihan Anda [1/2]: ").strip()
+                if choice == "1":
+                    keyword = input("\nMasukkan nama barang yang ingin dicari: ").strip().lower()
+                    filtered_df = df[df["Nama Barang"].str.lower().str.contains(keyword)]
+                    if not filtered_df.empty:
+                        print("\nHasil Pencarian:")
+                        print(filtered_df.to_string(index=False))
+                    else:
+                        print("\n[Info] Barang tidak ditemukan.")
+                elif choice == "2":
+                    return  
+                else:
+                    print("[Error] Pilihan tidak valid.")
     except FileNotFoundError:
-        print("items.csv not found.")
-    menu(username)
+        print("\n[Error] File items.csv tidak ditemukan. Pastikan file tersedia.")
+    input("\nTekan Enter untuk kembali ke menu...")
+
 
 def editBarang():
     os.system("cls")
@@ -192,69 +246,82 @@ def editBarang():
         print("Barang tidak ditemukan.")
     menu(username)
 
-def lihatPenjualan():
-    os.system("cls")
-    print("Lihat Penjualan")
-    try:
-        df = pd.read_csv("penjualan.csv")
-        print(df)
-    except FileNotFoundError:
-        print("penjualan.csv not found.")
-    menu(username)
-
-def lihatPengeluaran():
-    os.system("cls")
-    print("Lihat Pengeluaran")
-    try:
-        df = pd.read_csv("pengeluaran.csv")
-        print(df)
-    except FileNotFoundError:
-        print("pengeluaran.csv not found.")
-    menu(username)
-
-def lihatPendapatan():
-    os.system("cls")
-    print("Lihat Pendapatan")
-    try:
-        df = pd.read_csv("pendapatan.csv")
-        print(df)
-    except FileNotFoundError:
-        print("pendapatan.csv not found.")
-    menu(username)
-
-def lihatKeuntungan():
-    os.system("cls")
-    print("Lihat Keuntungan")
-    try:
-        df = pd.read_csv("keuntungan.csv")
-        print(df)
-    except FileNotFoundError:
-        print("keuntungan.csv not found.")
-    menu(username)
-
-def kurangibarang():
-    os.system("cls")
-    print("Kurangi Barang")
-    nama = input("Enter nama barang: ")
-    try:
-        df = pd.read_csv("items.csv")
-    except FileNotFoundError:
-        print("items.csv not found.")
-        return
-    df.loc[df["Nama Barang"] == nama, "Stok Barang"] = input("Enter stok barang: ")
-    df.to_csv("items.csv", index=False)
-    print("Barang berhasil dikurangi")
-    menu(username)
-
 def checkout():
     os.system("cls")
-    print("Checkout")
+    print("=" * 40)
+    print("               CHECKOUT")
+    print("=" * 40)
+    
     try:
         df = pd.read_csv("items.csv")
-        print(df)
+        if df.empty:
+            print("Tidak ada barang tersedia untuk dibeli.")
+            input("Tekan Enter untuk kembali...")
+            return
+        
+        print("\nDaftar Barang Tersedia:")
+        print(df.to_string(index=False))
+        
+        cart = []  
+        total_items_sold = 0  
+        total_income = 0  
+
+        while True:
+            item_name = input("\nMasukkan nama barang yang ingin dibeli (atau ketik 'selesai' untuk checkout): ").strip()
+            if item_name.lower() == "selesai":
+                break
+            if item_name in df["Nama Barang"].values:
+                item_row = df[df["Nama Barang"] == item_name].iloc[0]
+                stock = item_row["Jumlah Barang"]
+                price = item_row["Harga Barang"]
+                
+                if stock > 0:
+                    try:
+                        quantity = int(input(f"Masukkan jumlah yang ingin dibeli (stok tersedia: {stock}): "))
+                        if quantity <= 0:
+                            print("Jumlah harus lebih besar dari 0.")
+                        elif quantity > stock:
+                            print(f"Maaf, stok tidak mencukupi. Stok tersedia hanya {stock}.")
+                        else:
+                            cart.append({"Nama Barang": item_name, "Jumlah Barang": quantity,"Harga Barang": price, "Total": price * quantity})
+                            df.loc[df["Nama Barang"] == item_name, "Jumlah Barang"] -= quantity
+                            total_items_sold += quantity
+                            total_income = price * quantity
+                            print(f"{quantity} {item_name} berhasil ditambahkan ke keranjang.")
+                    except ValueError:
+                        print("Masukkan jumlah dalam angka.")
+                else:
+                    print(f"Maaf, {item_name} habis.")
+            else:
+                print("Barang tidak ditemukan. Pastikan nama barang benar.")
+        
+        if cart:
+            clear_screen()
+            print("\nBarang yang Akan Dibeli:")
+            print("=" * 40)
+            print(f"{'Nama':<20}{'Jumlah':<10}{'Harga Satuan':<15}{'Total':<10}")
+            print("-" * 40)
+            for item in cart:
+                print(f"{item['Nama Barang']:<20}{item['Jumlah Barang']:<10}{item['Harga Barang']:<15}{item['Total']:<10}")
+            print("-" * 40)
+            print(f"Total Barang Keluar: {total_items_sold}")
+            print(f"Total Pendapatan: {total_income}")
+            
+            confirm = input("\nKonfirmasi pembelian? (y/n): ").strip().lower()
+            if confirm == "y":
+                df.to_csv("items.csv", index=False)
+                print("\nPembelian berhasil! Terima kasih.")
+                print(f"\n[Ringkasan Transaksi]\nTotal Barang Keluar: {total_items_sold}\nTotal Pendapatan: {total_income}")
+            else:
+                print("Pembelian dibatalkan.")
+        else:
+            print("\nKeranjang kosong. Tidak ada barang yang dibeli.")
+        
+        input("\nTekan Enter untuk kembali ke menu...")
     except FileNotFoundError:
-        print("items.csv not found.")
-    menu(username)
+        print("File items.csv tidak ditemukan. Pastikan file tersedia.")
+        input("Tekan Enter untuk kembali ke menu...")
+
 
 def pencarianBarang():
     os.system("cls")
@@ -266,16 +333,32 @@ def pencarianBarang():
         print("items.csv not found.")
         return 
 
-def exit_program():
-    os.system("cls")
-    print("Terima Kasih")
-    exit()
-
-# Main execution
+def presensi():
+    """Fungsi untuk mencatat presensi."""
+    clear_screen()
+    print("=" * 40)
+    print("                PRESENSI")
+    print("=" * 40)
+    if username in ["Admin", "Kasir"]:
+        data = {"Tanggal": [datetime.datetime.now().strftime("%Y-%m-%d")],"Waktu": [datetime.datetime.now().strftime("%H:%M:%S")], "Nama": [username]}
+        df = pd.DataFrame(data)
+        file_path = "presensi.csv"
+        try:
+            if os.path.exists(file_path):
+                df.to_csv(file_path, mode="a", header=False, index=False)
+            else:
+                df.to_csv(file_path, index=False)
+            print("\n[Info] Data presensi berhasil disimpan.")
+        except Exception as e:
+            print(f"[Error] Terjadi kesalahan saat menyimpan presensi: {e}")
+    else:
+        print("[Error] Anda tidak memiliki akses untuk presensi.")
+    input("\nTekan Enter untuk kembali ke menu...")
+    
 if __name__ == "__main__":
     username = login()
     if username:
         print(f"Login berhasil sebagai {username}")
         menu(username)
     else:
-        print("Login gagal, silakan coba lagi.")
+        print("Login gagal.")
