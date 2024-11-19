@@ -1,7 +1,9 @@
 from calendar import c
 import os
 import platform
+from turtle import clear
 import pandas as pd
+import datetime
 
 def clear_screen():
     """Membersihkan layar."""
@@ -24,7 +26,6 @@ def login():
         print("5. Keluar")
         print("-" * 40)
         choice = input("Masukkan Pilihan Anda [1-5]: ").strip()
-
         if choice == "1":
             username = input("Masukkan Username: ").strip()
             password = input("Masukkan Password: ").strip()
@@ -34,7 +35,6 @@ def login():
                 return "Owner"
             else:
                 print("[Error] Username atau password salah.")
-        
         elif choice == "2":
             username = input("Masukkan Username: ").strip()
             password = input("Masukkan Password: ").strip()
@@ -102,7 +102,8 @@ def menu(username):
                 "1": "Tambah Barang",
                 "2": "Hapus Barang",
                 "3": "Lihat Barang",
-                "4": "Keluar"
+                "4": "Presensi",
+                "5": "Keluar"
             }
         elif username == "Kasir":
             menu_title = "MENU KASIR"
@@ -132,7 +133,9 @@ def menu(username):
                 lihatBarang()
             elif choice == "4" and username == "Owner":
                 editBarang()
-            elif choice == "5":
+            elif choice == "4" :
+                presensi()
+            elif choice == "5" :
                 exit_program()
             else:
                 print("[Error] Pilihan tidak valid.")
@@ -140,6 +143,8 @@ def menu(username):
             if choice == "1":
                 lihatBarang()
             elif choice == "2":
+                presensi()
+            elif choice == "3":
                 exit_program()
             else:
                 print("[Error] Pilihan tidak valid.")
@@ -258,6 +263,9 @@ def checkout():
         print(df.to_string(index=False))
         
         cart = []  
+        total_items_sold = 0  
+        total_income = 0  
+
         while True:
             item_name = input("\nMasukkan nama barang yang ingin dibeli (atau ketik 'selesai' untuk checkout): ").strip()
             if item_name.lower() == "selesai":
@@ -275,8 +283,10 @@ def checkout():
                         elif quantity > stock:
                             print(f"Maaf, stok tidak mencukupi. Stok tersedia hanya {stock}.")
                         else:
-                            cart.append({"Nama": item_name, "Jumlah": quantity, "Harga Satuan": price, "Total": price * quantity})
+                            cart.append({"Nama Barang": item_name, "Jumlah Barang": quantity,"Harga Barang": price, "Total": price * quantity})
                             df.loc[df["Nama Barang"] == item_name, "Jumlah Barang"] -= quantity
+                            total_items_sold += quantity
+                            total_income = price * quantity
                             print(f"{quantity} {item_name} berhasil ditambahkan ke keranjang.")
                     except ValueError:
                         print("Masukkan jumlah dalam angka.")
@@ -286,20 +296,22 @@ def checkout():
                 print("Barang tidak ditemukan. Pastikan nama barang benar.")
         
         if cart:
+            clear_screen()
             print("\nBarang yang Akan Dibeli:")
             print("=" * 40)
             print(f"{'Nama':<20}{'Jumlah':<10}{'Harga Satuan':<15}{'Total':<10}")
             print("-" * 40)
-            total_price = ""
             for item in cart:
-                print(f"{item['Nama']:<20}{item['Jumlah']:<10}{item['Harga Satuan']:<15}{item['Total']:<10}")
-                total_price += item['Total']
+                print(f"{item['Nama Barang']:<20}{item['Jumlah Barang']:<10}{item['Harga Barang']:<15}{item['Total']:<10}")
             print("-" * 40)
-            print(f"Total Harga: {total_price}")
+            print(f"Total Barang Keluar: {total_items_sold}")
+            print(f"Total Pendapatan: {total_income}")
+            
             confirm = input("\nKonfirmasi pembelian? (y/n): ").strip().lower()
             if confirm == "y":
                 df.to_csv("items.csv", index=False)
-                print("Pembelian berhasil! Terima kasih.")
+                print("\nPembelian berhasil! Terima kasih.")
+                print(f"\n[Ringkasan Transaksi]\nTotal Barang Keluar: {total_items_sold}\nTotal Pendapatan: {total_income}")
             else:
                 print("Pembelian dibatalkan.")
         else:
@@ -321,6 +333,28 @@ def pencarianBarang():
         print("items.csv not found.")
         return 
 
+def presensi():
+    """Fungsi untuk mencatat presensi."""
+    clear_screen()
+    print("=" * 40)
+    print("                PRESENSI")
+    print("=" * 40)
+    if username in ["Admin", "Kasir"]:
+        data = {"Tanggal": [datetime.datetime.now().strftime("%Y-%m-%d")],"Waktu": [datetime.datetime.now().strftime("%H:%M:%S")], "Nama": [username]}
+        df = pd.DataFrame(data)
+        file_path = "presensi.csv"
+        try:
+            if os.path.exists(file_path):
+                df.to_csv(file_path, mode="a", header=False, index=False)
+            else:
+                df.to_csv(file_path, index=False)
+            print("\n[Info] Data presensi berhasil disimpan.")
+        except Exception as e:
+            print(f"[Error] Terjadi kesalahan saat menyimpan presensi: {e}")
+    else:
+        print("[Error] Anda tidak memiliki akses untuk presensi.")
+    input("\nTekan Enter untuk kembali ke menu...")
+    
 if __name__ == "__main__":
     username = login()
     if username:
