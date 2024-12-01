@@ -8,6 +8,7 @@ import csv
 import pyfiglet
 from tabulate import tabulate
 
+
 def clear_screen():
     if platform.system() == "Windows":
         os.system("cls")
@@ -76,7 +77,6 @@ def exit_program():
     terima_kasih_text = pyfiglet.figlet_format(text= "Terima Kasih", font = "3d-ASCII", width = 100, justify = "center")
     print(terima_kasih_text)
     exit()
-
 
 def menu(username):
     while True:
@@ -216,7 +216,7 @@ def lihatBarang():
             print("Tidak ada barang tersedia.")
         else:
             print("\nDaftar Barang:")
-            print(tabulate(df, headers="keys", tablefmt="grid", showindex=False))  # Menggunakan tabulate
+            print(tabulate(df, headers="keys", tablefmt="double_grid", showindex=False)) 
             while True:
                 print("\nPilih Opsi:")
                 print("1. Cari Barang")
@@ -271,7 +271,7 @@ def checkout():
             return
         
         print("\nDaftar Barang Tersedia:")
-        print(tabulate(df, headers="keys", tablefmt="grid", showindex=False))
+        print(tabulate(df, headers="keys", tablefmt="double_grid", showindex=False))
         
         cart = []  
         total_items_sold = 0  
@@ -297,7 +297,7 @@ def checkout():
                             cart.append({"Nama Barang": item_name, "Jumlah Barang": quantity,"Harga Barang": price, "Total": price * quantity})
                             df.loc[df["Nama Barang"] == item_name, "Jumlah Barang"] -= quantity
                             total_items_sold += quantity
-                            total_income = price * quantity
+                            total_income += price * quantity
                             print(f"{quantity} {item_name} berhasil ditambahkan ke keranjang.")
                     except ValueError:
                         print("Masukkan jumlah dalam angka.")
