@@ -425,3 +425,4 @@ if __name__ == "__main__":
         clear_screen()
         terima_kasih_text = pyfiglet.figlet_format(text= "Login Gagal", font = "3d-ASCII", width = 100, justify = "center")
         print(terima_kasih_text)
+text
