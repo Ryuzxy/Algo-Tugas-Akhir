@@ -1,21 +1,21 @@
 Nama Barang,Harga Barang,Jumlah Barang
-Pupuk organik,Rp    25.000,100.0
-Pupuk kimia,Rp    35.000,100.0
-Pupuk cair,Rp    40.000,100.0
-Pestisida organik,Rp    30.000,100.0
-Pestisida kimia,Rp    50.000,100.0
-Cangkul,Rp    40.000,100.0
-Sekop,Rp     25000,99.0
-Parang,Rp    50.000,100.0
-Garpu Tanah,Rp    40.000,100.0
-Mesin pemotong rumput,Rp 1.500.000,100.0
-Sprayer,Rp   200.000,100.0
-Pompa air,Rp 1.000.000,100.0
-Sprinkler,Rp   100.000,100.0
-Termometer tanah,Rp   100.000,100.0
-Bibit padi,Rp    20.000,100.0
-Bibit cabai, Rp    10.000,100.0
-Bibit bawang, Rp    20.000,100.0
-Bibit jagung, Rp    20.000,100.0
-Bibit tomat,Rp    10.000,100.0
-Bibit kentang,Rp    20.000,100.0
+Pupuk organik,25000,100
+Pupuk kimia,35000,100
+Pupuk cair,40000,100
+Pestisida organik,30000,100
+Pestisida kimia,50000,100
+Cangkul,40000,100
+Sekop,25000,100
+Parang,50000,100
+Garpu Tanah,40000,100
+Mesin pemotong rumput,1500000,100
+Sprayer,200000,100
+Pompa air,1000000,99
+Sprinkler,100000,100
+Termometer tanah,100000,100
+Bibit padi,20000,100
+Bibit cabai,10000,100
+Bibit bawang,20000,100
+Bibit jagung,20000,100
+Bibit tomat,10000,100
+Bibit kentang,20000,100
