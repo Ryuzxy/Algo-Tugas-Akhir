@@ -8,7 +8,6 @@ import csv
 import pyfiglet
 from tabulate import tabulate
 
-
 def clear_screen():
     if platform.system() == "Windows":
         os.system("cls")
@@ -31,7 +30,8 @@ def login():
     while True:
         clear_screen()
         print("=" * 40)
-        print("        SELAMAT DATANG DI TOKO KAMI")
+        masuk = pyfiglet.figlet_format(text= "AGROVERSE", font = "3d-ASCII", width = 100, justify = "center")
+        print(masuk)
         print("=" * 40)
         print("Pilih Mau Login Sebagai Apa?")
         print("1. Owner")
@@ -103,7 +103,8 @@ def menu(username):
             menu_title = "MENU KASIR"
             options = {
                 "1": "Lihat Barang",
-                "2": "Keluar"
+                "2": "Presensi",
+                "3": "Keluar"
             }
         elif username == "Pembeli":
             menu_title = "MENU PEMBELI"
@@ -228,7 +229,7 @@ def lihatBarang():
                     filtered_df = df[df["Nama Barang"].str.lower().str.contains(keyword)]
                     if not filtered_df.empty:
                         print("\nHasil Pencarian:")
-                        print(tabulate(filtered_df, headers="keys", tablefmt="grid", showindex=False))
+                        print(tabulate(filtered_df, headers="keys", tablefmt="double_grid", showindex=False))
                     else:
                         print("\n[Info] Barang tidak ditemukan.")
                 elif choice == "2":
@@ -425,4 +426,3 @@ if __name__ == "__main__":
         clear_screen()
         terima_kasih_text = pyfiglet.figlet_format(text= "Login Gagal", font = "3d-ASCII", width = 100, justify = "center")
         print(terima_kasih_text)
-text
